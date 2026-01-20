@@ -1,0 +1,44 @@
+{% extends "common/base.html" %}
+{% block content %}
+<h1 class="text-2xl font-bold mb-4">EduSnap AI - Login</h1>
+
+<div class="max-w-sm mx-auto bg-white p-6 rounded-xl shadow-md">
+  <form id="loginForm">
+    <label class="block mb-2 font-semibold">Username</label>
+    <input id="username" class="w-full border px-3 py-2 rounded mb-3" type="text" required>
+
+    <label class="block mb-2 font-semibold">Password</label>
+    <input id="password" class="w-full border px-3 py-2 rounded mb-3" type="password" required>
+
+    <button class="w-full bg-blue-600 hover:bg-blue-700 text-white py-2 rounded" type="submit">
+      Login
+    </button>
+  </form>
+  <p id="message" class="mt-4 text-center text-red-600"></p>
+</div>
+
+<script>
+  document.getElementById("loginForm").addEventListener("submit", async function(e) {
+    e.preventDefault();
+    const username = document.getElementById("username").value;
+    const password = document.getElementById("password").value;
+
+    const response = await fetch("/auth/login", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ username, password })
+    });
+
+    const data = await response.json();
+
+    if (response.ok) {
+      localStorage.setItem("token", data.access_token);
+      localStorage.setItem("role", data.role);
+      localStorage.setItem("username", data.username);
+      window.location.href = data.role === "admin" ? "/admin/dashboard" : "/faculty/dashboard";
+    } else {
+      document.getElementById("message").innerText = data.detail || "Login failed";
+    }
+  });
+</script>
+{% endblock %}

@@ -1,0 +1,48 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>{% block title %}EduSnap AI{% endblock %}</title>
+
+  <!-- ✅ Tailwind CSS -->
+  <script src="https://cdn.tailwindcss.com"></script>
+
+  <!-- ✅ Favicon -->
+  <link rel="icon" href="/static/images/logo.png" type="image/png">
+
+  <!-- ✅ Meta for SEO -->
+  <meta name="description" content="EduSnap AI - Smart Attendance with AI Vision">
+  <meta name="author" content="EduSnap AI Team">
+</head>
+
+<body class="bg-gray-50 text-gray-800 font-sans min-h-screen flex flex-col">
+  <!-- ✅ Header -->
+  <header class="bg-blue-600 text-white shadow-md">
+    <div class="max-w-7xl mx-auto flex justify-between items-center p-4">
+      <h1 class="text-2xl font-bold tracking-wide">
+        <a href="/">EduSnap AI</a>
+      </h1>
+      <nav>
+        <a href="/" class="px-3 hover:underline">Home</a>
+        <a href="/admin" class="px-3 hover:underline">Admin</a>
+        <a href="/faculty" class="px-3 hover:underline">Faculty</a>
+      </nav>
+    </div>
+  </header>
+
+  <!-- ✅ Main Content Area -->
+  <main class="flex-grow container mx-auto p-6">
+    {% block content %}{% endblock %}
+  </main>
+
+  <!-- ✅ Footer -->
+  <footer class="bg-gray-200 text-center py-3 text-sm text-gray-600">
+    © {{ current_year or "2025" }} EduSnap AI — Smart Attendance with AI Vision
+  </footer>
+
+  <!-- ✅ JS Scripts -->
+  <script src="/static/js/dashboard.js"></script>
+  {% block scripts %}{% endblock %}
+</body>
+</html>

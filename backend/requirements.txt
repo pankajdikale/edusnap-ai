@@ -1,0 +1,11 @@
+fastapi
+uvicorn
+sqlalchemy
+pydantic
+python-dotenv
+passlib[bcrypt]
+python-jose
+reportlab
+pandas
+python-multipart
+# face recognition libs you may add later: face_recognition, insightface, opencv-python
