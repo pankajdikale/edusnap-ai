@@ -1,7 +1,3 @@
-"""
-Face Recognition Engine — integrated from jpmandal-02/Multiface-Recognition-Fastapi
-Handles encoding and recognition using InsightFace (RetinaFace + ArcFace)
-"""
 
 import numpy as np
 import cv2
