@@ -19,7 +19,11 @@ const Login = () => {
     setLoading(true);
     try {
       await login(form.email, form.password, form.role);
-      navigate(form.role === 'admin' ? '/admin/dashboard' : '/faculty/dashboard');
+      setToast({ message: 'Login successful!', type: 'success' });
+      // Add delay to show toast
+      setTimeout(() => {
+        navigate(form.role === 'admin' ? '/admin/dashboard' : '/faculty/dashboard');
+      }, 1500);  // 1.5 seconds delay
     } catch (error: any) {
       setToast({ message: error.message || 'Login failed', type: 'error' });
     } finally {
@@ -53,7 +57,7 @@ const Login = () => {
                   onChange={(e) => setForm({ ...form, password: e.target.value })}
                   required
                   placeholder="Enter your password"
-                  style={{ paddingRight: '40px' }}
+                  style={{ paddingRight: '10px' }}
                 />
                 <button
                   type="button"

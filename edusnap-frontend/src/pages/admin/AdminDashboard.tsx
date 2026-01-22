@@ -11,8 +11,8 @@ const AdminDashboard = () => {
       <div className="container">
         <h2>Admin Dashboard</h2>
         <Card>
-          <button className="button" onClick={() => navigate('/admin/faculty')}>Add Faculty</button>
-          <button className="button" onClick={() => navigate('/admin/faculty')}>Delete Faculty</button>
+          <button className="button" onClick={() => navigate('/admin/faculty?action=add')}>Add Faculty</button>
+          <button className="button" onClick={() => navigate('/admin/faculty?action=delete')}>Delete Faculty</button>
           <button className="button" onClick={() => navigate('/admin/reports')}>View Attendance Reports</button>
         </Card>
       </div>
