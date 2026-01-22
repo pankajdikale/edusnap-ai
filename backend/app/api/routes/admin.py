@@ -4,9 +4,9 @@ from fastapi import APIRouter, HTTPException, Depends, status
 from pydantic import BaseModel, EmailStr
 from sqlalchemy.orm import Session
 
-from backend.app.core.database import SessionLocal
-from backend.app.core import models, security
-from backend.app.core.deps import get_current_user
+from app.core.database import SessionLocal
+from app.core import models, security
+from app.core.deps import get_current_user
 
 router = APIRouter(tags=["Admin"])
 

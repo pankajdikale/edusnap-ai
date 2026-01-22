@@ -4,10 +4,10 @@ from sqlalchemy.orm import Session
 from datetime import date
 import os
 
-from backend.app.core.database import SessionLocal
-from backend.app.core.models import Attendance, Student, User
-from backend.app.core.face_recognition_engine import recognize_faces_from_image
-from backend.app.core.deps import get_current_user  # JWT-based auth
+from app.core.database import SessionLocal
+from app.core.models import Attendance, Student, User
+from app.core.face_recognition_engine import recognize_faces_from_image
+from app.core.deps import get_current_user  # JWT-based auth
 
 router = APIRouter(tags=["Faculty"])
 

@@ -2,9 +2,9 @@
 from fastapi import APIRouter, Depends, HTTPException
 from sqlalchemy.orm import Session
 import os
-from backend.app.core.deps import get_current_user
-from backend.app.core.database import SessionLocal
-from backend.app.core.models import Attendance
+from app.core.deps import get_current_user
+from app.core.database import SessionLocal
+from app.core.models import Attendance
 
 router = APIRouter(tags=["Reports"])
 

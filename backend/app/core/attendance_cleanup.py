@@ -1,6 +1,6 @@
 from datetime import date, timedelta
-from backend.app.core.database import SessionLocal
-from backend.app.core.models import Attendance
+from app.core.database import SessionLocal
+from app.core.models import Attendance
 
 
 def delete_old_attendance(days: int = 10):

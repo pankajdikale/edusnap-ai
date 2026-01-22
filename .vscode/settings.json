@@ -1,14 +1,27 @@
 {
     "cSpell.words": [
+        "albucore",
+        "albumentations",
+        "anyio",
         "autoflush",
         "Dhruvika",
         "dotenv",
         "edusnap",
+        "edusnapai",
+        "frombuffer",
+        "imdecode",
+        "IMREAD",
+        "imshow",
+        "imwrite",
+        "isnot",
+        "linalg",
         "Nishika",
+        "npimg",
         "pagesizes",
         "pdfgen",
         "Sagar",
         "sessionmaker",
         "supersecretkey"
-    ]
+    ],
+    "python.defaultInterpreterPath": "venv/Scripts/python.exe"
 }

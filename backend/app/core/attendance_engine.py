@@ -4,16 +4,19 @@ import pickle
 import numpy as np
 import pandas as pd  # Added for CSV/XLSX processing
 from datetime import date
-from backend.app.core.database import SessionLocal
-from backend.app.core.models import Student, Attendance, User
-from backend.app.core.face_recognition_engine import FaceEncoder
-from backend.app.core.attendance_report import generate_csv, generate_pdf
+from app.core.database import SessionLocal
+from app.core.models import Student, Attendance, User
+from app.core.face_recognition_engine import FaceEncoder
+from app.core.attendance_report import generate_csv, generate_pdf
 
 encoder = FaceEncoder()
 
-BASE_DIR = os.path.abspath(os.getcwd())
+# Absolute paths from project root (edusnapai/)
+BASE_DIR = os.path.abspath(os.path.join(os.getcwd(), ".."))
 OUTPUT_DIR = os.path.join(BASE_DIR, "backend", "storage", "attendance_outputs")
+STATIC_DIR = os.path.join(BASE_DIR, "backend", "app", "static", "attendance_outputs")
 os.makedirs(OUTPUT_DIR, exist_ok=True)
+os.makedirs(STATIC_DIR, exist_ok=True)
 
 def process_attendance_file(file, db, faculty_id):
     """Process uploaded CSV/XLSX file for attendance marking (for frontend upload)."""
@@ -150,7 +153,7 @@ def mark_attendance_from_image(image_path: str, subject: str, department: str = 
         cv2.putText(img, label, (bbox[0], bbox[1] - 10),
                     cv2.FONT_HERSHEY_SIMPLEX, 0.8, color, 2)
 
-    output_image = os.path.join("backend", "app", "static", "attendance_outputs", f"{subject}_{today}.jpg")
+    output_image = os.path.join(STATIC_DIR, f"{subject}_{today}.jpg")
     cv2.imwrite(output_image, img)
 
     db.commit()
@@ -160,11 +163,11 @@ def mark_attendance_from_image(image_path: str, subject: str, department: str = 
     pdf_path = generate_pdf(subject, present_students)
 
     return {
-    "date": str(today),
-    "subject": subject,
-    "present_count": len(present_students),
-    "present_students": present_students,
-    "output_image": os.path.basename(output_image),
-    "csv_report": os.path.basename(csv_path),  # Just filename, e.g., "cloud_2026-01-19.csv"
-    "pdf_report": os.path.basename(pdf_path)   # Just filename, e.g., "cloud_2026-01-19.pdf"
-     }
+        "date": str(today),
+        "subject": subject,
+        "present_count": len(present_students),
+        "present_students": present_students,
+        "output_image": os.path.basename(output_image),
+        "csv_report": os.path.basename(csv_path),
+        "pdf_report": os.path.basename(pdf_path)
+    }

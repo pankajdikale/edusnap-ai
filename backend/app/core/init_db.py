@@ -3,8 +3,8 @@ Initialize EduSnap AI Database
 Creates all tables for PostgreSQL using SQLAlchemy models
 """
 
-from backend.app.core.database import engine, Base
-from backend.app.core import models
+from app.core.database import engine, Base
+from app.core import models
 
 def init_db():
     print("🛠️ Creating all database tables...")

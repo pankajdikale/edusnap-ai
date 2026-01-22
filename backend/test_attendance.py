@@ -3,9 +3,9 @@ import cv2
 import pickle
 import numpy as np
 from datetime import date
-from backend.app.core.database import SessionLocal
-from backend.app.core.models import Student, Attendance
-from backend.app.core.face_recognition_engine import FaceEncoder
+from app.core.database import SessionLocal
+from app.core.models import Student, Attendance
+from app.core.face_recognition_engine import FaceEncoder
 
 # Initialize face encoder
 encoder = FaceEncoder()

@@ -6,12 +6,13 @@ from datetime import datetime
 import os
 from fastapi.responses import FileResponse
 
-from backend.app.core.database import SessionLocal
-from backend.app.core.attendance_engine import mark_attendance_from_image, process_attendance_file
-from backend.app.core.deps import get_current_user
-from backend.app.core.models import User
+from app.core.database import SessionLocal
+from app.core.attendance_engine import mark_attendance_from_image, process_attendance_file
+from app.core.deps import get_current_user
+from app.core.models import User
 
 router = APIRouter(tags=["Attendance"])
+BASE_DIR = os.path.abspath(os.path.join(os.getcwd(), ".."))  # Project root (edusnapai/)
 
 def get_db():
     db = SessionLocal()
@@ -37,7 +38,7 @@ async def upload_and_mark(
         raise HTTPException(status_code=403, detail="Only faculty can upload attendance")
 
     # 📂 Upload directory
-    upload_dir = "backend/app/static/uploads"
+    upload_dir = os.path.join(BASE_DIR, "backend", "app", "static", "uploads")  # Absolute path
     os.makedirs(upload_dir, exist_ok=True)
 
     # 📸 Save file safely
@@ -87,7 +88,7 @@ def get_attendance_results(current_user: User = Depends(get_current_user), db: S
     if current_user.role != "faculty":
         raise HTTPException(status_code=403, detail="Only faculty can view results")
     
-    from backend.app.core.models import Attendance
+    from app.core.models import Attendance
     records = db.query(Attendance).filter(Attendance.marked_by == current_user.id).all()
     # Placeholder for image URL (assume latest upload)
     image_url = "/static/uploads/latest.jpg"  # Update with real logic if needed
@@ -101,7 +102,7 @@ def get_attendance_results(current_user: User = Depends(get_current_user), db: S
 @router.get("/download/latest/csv")
 def download_latest_csv(current_user=Depends(get_current_user)):
     """Download the latest CSV file."""
-    csv_dir = "backend/storage/attendance_reports/csv"
+    csv_dir = os.path.join(BASE_DIR, "backend", "storage", "attendance_reports", "csv")  # Absolute path
     if not os.path.exists(csv_dir):
         raise HTTPException(status_code=404, detail="No CSV files found")
     
@@ -117,7 +118,7 @@ def download_latest_csv(current_user=Depends(get_current_user)):
 @router.get("/download/latest/pdf")
 def download_latest_pdf(current_user=Depends(get_current_user)):
     """Download the latest PDF file."""
-    pdf_dir = "backend/storage/attendance_reports/pdf"
+    pdf_dir = os.path.join(BASE_DIR, "backend", "storage", "attendance_reports", "pdf")  # Absolute path
     if not os.path.exists(pdf_dir):
         raise HTTPException(status_code=404, detail="No PDF files found")
     
@@ -127,19 +128,19 @@ def download_latest_pdf(current_user=Depends(get_current_user)):
     
     latest_file = max(files, key=lambda f: os.path.getmtime(os.path.join(pdf_dir, f)))
     file_path = os.path.join(pdf_dir, latest_file)
-    
+    print(f"DEBUG: Downloading: {latest_file} at {os.path.getmtime(file_path)}")  # Debug
     return FileResponse(path=file_path, media_type="application/pdf", filename=latest_file)
 
 @router.get("/latest-image")
 def get_latest_image(current_user=Depends(get_current_user)):
     """Get the latest attendance output image."""
-    image_dir = "backend/app/static/attendance_outputs"
+    image_dir = os.path.join(BASE_DIR, "backend", "app", "static", "attendance_outputs")  # Absolute path
     if not os.path.exists(image_dir):
         return {"image": ""}
-
+    
     files = [f for f in os.listdir(image_dir) if f.endswith('.jpg')]
     if not files:
         return {"image": ""}
-
+    
     latest_file = max(files, key=lambda f: os.path.getmtime(os.path.join(image_dir, f)))
     return {"image": latest_file}

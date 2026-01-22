@@ -2,11 +2,11 @@ from fastapi import FastAPI
 from fastapi.staticfiles import StaticFiles
 from fastapi.templating import Jinja2Templates
 from fastapi.middleware.cors import CORSMiddleware
-from backend.app.api.routes import students
-from backend.app.core.database import engine
-from backend.app.core import models
-from backend.app.api.routes import auth, admin, faculty, attendance, reports
-from backend.app.core.attendance_cleanup import delete_old_attendance
+from app.api.routes import students
+from app.core.database import engine
+from app.core import models
+from app.api.routes import auth, admin, faculty, attendance, reports
+from app.core.attendance_cleanup import delete_old_attendance
 
 models.Base.metadata.create_all(bind=engine)
 
@@ -25,7 +25,7 @@ app.add_middleware(
     allow_headers=["*"],
 )
 
-app.mount("/static", StaticFiles(directory="backend/app/static"), name="static")
+app.mount("/static", StaticFiles(directory="app/static"), name="static")
 templates = Jinja2Templates(directory="backend/app/templates")
 
 app.include_router(auth.router, prefix="/api/auth", tags=["Auth"])

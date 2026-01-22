@@ -1,7 +1,7 @@
-from backend.app.core.database import SessionLocal
-from backend.app.core import models
-from backend.app.core.security import get_password_hash
-from backend.app.core.models import User
+from app.core.database import SessionLocal
+from app.core import models
+from app.core.security import get_password_hash
+from app.core.models import User
 
 def seed_admin():
     db = SessionLocal()

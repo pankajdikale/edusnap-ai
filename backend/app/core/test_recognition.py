@@ -6,10 +6,10 @@ import numpy as np
 import cv2
 import insightface
 from sqlalchemy.orm import Session
-from backend.app.core.database import SessionLocal
-from backend.app.core.models import Student
+from app.core.database import SessionLocal
+from app.core.models import Student
 from tkinter import Tk, filedialog
-from backend.app.core.face_recognition_engine import recognize_faces_from_image
+from app.core.face_recognition_engine import recognize_faces_from_image
 # Hide Tkinter main window
 Tk().withdraw()
 

@@ -2,7 +2,7 @@ from sqlalchemy.orm import declarative_base
 from sqlalchemy import create_engine
 from sqlalchemy.orm import sessionmaker
 import os
-from backend.app.core.base import Base
+from app.core.base import Base
 
 # Database URL: Use environment variable for security (e.g., set DATABASE_URL in .env or deployment)
 DATABASE_URL = os.getenv(
@@ -23,7 +23,7 @@ engine = create_engine(
 SessionLocal = sessionmaker(autocommit=False, autoflush=False, bind=engine)
 
 # Import models here to ensure tables are created (avoid circular imports by placing after Base definition)
-from backend.app.core import models  # noqa: E402
+from app.core import models  # noqa: E402
 print("REGISTERED TABLES:", Base.metadata.tables)
 
 if __name__ == "__main__":

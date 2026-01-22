@@ -4,10 +4,10 @@ from reportlab.lib.pagesizes import letter
 from reportlab.pdfgen import canvas
 from datetime import date
 
-BASE_DIR = os.path.abspath(os.getcwd())
-REPORT_DIR = os.path.join(BASE_DIR, "backend", "storage", "attendance_reports")
-CSV_DIR = os.path.join(REPORT_DIR, "csv")
-PDF_DIR = os.path.join(REPORT_DIR, "pdf")
+# Absolute paths from project root (edusnapai/)
+BASE_DIR = os.path.abspath(os.path.join(os.getcwd(), ".."))
+CSV_DIR = os.path.join(BASE_DIR, "backend", "storage", "attendance_reports", "csv")
+PDF_DIR = os.path.join(BASE_DIR, "backend", "storage", "attendance_reports", "pdf")
 os.makedirs(CSV_DIR, exist_ok=True)
 os.makedirs(PDF_DIR, exist_ok=True)
 

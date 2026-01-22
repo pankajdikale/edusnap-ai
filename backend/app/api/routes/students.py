@@ -6,8 +6,8 @@ import numpy as np
 import insightface
 from fastapi import APIRouter, UploadFile, File, Form, HTTPException, Depends
 from sqlalchemy.orm import Session
-from backend.app.core.database import SessionLocal
-from backend.app.core.models import Student
+from app.core.database import SessionLocal
+from app.core.models import Student
 
 router = APIRouter(tags=["Students"])
 

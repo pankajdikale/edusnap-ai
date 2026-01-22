@@ -3,8 +3,8 @@ import numpy as np
 import cv2
 import insightface
 import pickle
-from backend.app.core.database import SessionLocal
-from backend.app.core.models import Student
+from app.core.database import SessionLocal
+from app.core.models import Student
 from sqlalchemy.orm import Session
 
 

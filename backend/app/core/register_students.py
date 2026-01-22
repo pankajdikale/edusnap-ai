@@ -5,8 +5,8 @@ import cv2
 import insightface
 from sqlalchemy.orm import Session
 from tkinter import Tk, filedialog
-from backend.app.core.database import SessionLocal
-from backend.app.core.models import Student
+from app.core.database import SessionLocal
+from app.core.models import Student
 
 # Hide the Tkinter root window
 Tk().withdraw()
