@@ -1,0 +1,34 @@
+services:
+  backend:
+    build: ./backend
+    container_name: edusnap-backend
+    ports:
+      - "8000:8000"
+    environment:
+      - DATABASE_URL=postgresql://postgres:PANKAJ1313@host.docker.internal:5432/edusnap
+    depends_on:
+      - db
+
+  frontend:
+    build: ./edusnap-frontend
+    container_name: edusnap-frontend
+    ports:
+      - "5173:5173"
+    depends_on:
+      - backend
+
+  db:
+    image: postgres:13
+    container_name: edusnap-db
+    restart: always
+    environment:
+      POSTGRES_DB: edusnap
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: PANKAJ1313
+    ports:
+      - "5432:5432"
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+
+volumes:
+  postgres_data:
