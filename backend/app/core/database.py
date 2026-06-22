@@ -7,7 +7,7 @@ from app.core.base import Base
 # Database URL: Use environment variable for security (e.g., set DATABASE_URL in .env or deployment)
 DATABASE_URL = os.getenv(
     "DATABASE_URL",
-    "postgresql://postgres:PANKAJ1313@localhost:5432/edusnap"  # Fallback for dev; avoid hardcoding in production
+    "postgresql://postgres:PANKAJ1313@postgres:5432/edusnap"  # Fallback for dev; avoid hardcoding in production
 )
 
 # Create engine with PostgreSQL - Added pooling and echo for debugging

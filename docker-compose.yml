@@ -1,34 +1,48 @@
 services:
-  backend:
-    build: ./backend
-    container_name: edusnap-backend
-    ports:
-      - "8000:8000"
-    environment:
-      - DATABASE_URL=postgresql://postgres:PANKAJ1313@host.docker.internal:5432/edusnap
-    depends_on:
-      - db
 
-  frontend:
-    build: ./edusnap-frontend
-    container_name: edusnap-frontend
-    ports:
-      - "5173:5173"
-    depends_on:
-      - backend
+  postgres:
+    image: postgres:16-alpine
+    container_name: postgres-db
 
-  db:
-    image: postgres:13
-    container_name: edusnap-db
-    restart: always
     environment:
+      POSTGRES_USER: pankaj
+      POSTGRES_PASSWORD: pankaj123
       POSTGRES_DB: edusnap
-      POSTGRES_USER: postgres
-      POSTGRES_PASSWORD: PANKAJ1313
+
     ports:
       - "5432:5432"
+
     volumes:
       - postgres_data:/var/lib/postgresql/data
 
+  backend:
+    image: pankajdikale/edusnap-backend:v1
+
+    container_name: edusnap-backend
+
+    ports:
+      - "8000:8000"
+
+    depends_on:
+      - postgres
+
+    environment:
+      DATABASE_URL: postgresql://pankaj:pankaj123@postgres:5432/edusnap
+
+    volumes:
+      - insightface_models:/root/.insightface
+
+  frontend:
+    image: pankajdikale/edusnap-frontend:v1
+
+    container_name: edusnap-frontend
+
+    ports:
+      - "3000:80"
+
+    depends_on:
+      - backend
+
 volumes:
   postgres_data:
+  insightface_models:
