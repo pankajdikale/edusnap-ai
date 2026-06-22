@@ -1,145 +1,277 @@
-🚀 EduSnap AI: AI-Powered Smart Face Recognition Attendance System
+# EduSnap AI — Smart Attendance System (React + FastAPI + PostgreSQL + AI)
 
-Revolutionizing attendance with cutting-edge AI face recognition technology. Built for modern educational institutions.
+EduSnap AI is a smart attendance system that uses **face recognition**
+to automatically mark student attendance.
+
+Instead of manually taking attendance, the backend detects faces using
+AI models and records attendance directly into the database.
+
 <img width="1024" height="1024" alt="edusnap-logo" src="https://github.com/user-attachments/assets/ab5b388c-5f23-47e1-939f-55345831af6a" />
-✨ Features
 
-🤖 AI-Powered Recognition: Face detection and matching using InsightFace (ArcFace) with 98% accuracy.
+Three main pieces work together:
 
-🎨 Modern UI: Responsive React frontend with glassmorphism design, animations, and dark mode support.
+```text
+browser  →  frontend (React)  →  backend (FastAPI + AI)  →  database (PostgreSQL)
+```
 
-🔐 Secure Backend: FastAPI with JWT authentication, role-based access (Admin/Faculty), and PostgreSQL database.
+* **frontend** — React app built with Vite. Handles the user interface.
+* **backend** — FastAPI application that handles APIs, authentication,
+  attendance logic, and face recognition.
+* **database** — PostgreSQL stores users, students, and attendance records.
 
-📊 Smart Reports: Auto-generate CSV/PDF reports with student details, department info, and attendance stats.
+The backend also uses:
 
-📱 Mobile-Friendly: Fully responsive design for desktops, tablets, and phones.
+* **InsightFace**
+* **ONNX Runtime**
+* **OpenCV**
 
-🐳 DevOps Ready: Containerized with Docker, CI/CD pipelines, deployable on Heroku/AWS.
+for AI-based face detection and recognition.
 
-📈 Real-Time Processing: Instant attendance marking from classroom images.
+---
 
-🖼️ Screenshots
+# Features
 
-Landing Page
-<img width="1516" height="941" alt="Screenshot 2026-01-22 150136" src="https://github.com/user-attachments/assets/bad35994-0fbc-4ea8-b206-a9d44d075b0a" />
+* Face recognition attendance system
+* Student registration
+* Attendance tracking
+* PostgreSQL database integration
+* Dockerized frontend + backend + database
+* Multi-stage Docker builds
+* Persistent AI model storage using Docker volumes
+* Docker Hub image deployment
+* Docker Compose orchestration
 
-Login Form
-<img width="1920" height="1140" alt="Screenshot 2026-01-22 150531" src="https://github.com/user-attachments/assets/5659e934-8cfc-4640-acfc-e47c77bd1120" />
+---
 
-Attendance Results
-<img width="967" height="1144" alt="Screenshot 2026-01-22 151113" src="https://github.com/user-attachments/assets/6fc72b2c-c9cf-40d3-a3ed-53edd3141c24" />
+# Tech Stack
 
-More screenshots in the screenshots/ folder.
+| Layer            | Technology                  |
+| ---------------- | --------------------------- |
+| Frontend         | React + Vite + TypeScript   |
+| Backend          | FastAPI                     |
+| Database         | PostgreSQL                  |
+| AI/ML            | InsightFace + ONNX + OpenCV |
+| Containerization | Docker                      |
+| Orchestration    | Docker Compose              |
 
-🛠️ Tech Stack
+---
 
-Frontend
-React (TypeScript) - Dynamic UI components
-Zustand - State management
-Axios - API communication
-CSS3 - Custom styling with animations
+# What You Need
 
-Backend
-FastAPI (Python) - High-performance API
-SQLAlchemy - ORM for database
-InsightFace - AI face recognition
-OpenCV - Image processing
+Only these are required:
 
-Database & DevOps
-PostgreSQL - Relational database
-Docker - Containerization
-GitHub Actions - CI/CD (optional)
-Heroku/AWS - Cloud deployment
+* Docker
+* Docker Compose
 
-📦 Installation & Setup
-Prerequisites
-Python 3.10+
-Node.js 18+
-PostgreSQL
-Docker (optional)
+You do NOT need to install:
 
-1. Clone the Repository
-bash
-Copy code
-git clone https://github.com/pankajdikale/edusnap-ai.git
-cd edusnap-ai
+* Node.js
+* Python
+* PostgreSQL
 
- 3. Backend Setup
-bash
-Copy code
-cd backend
-pip install -r requirements.txt
-set up PostgreSQL DB (local or cloud)
-uvicorn app.main:app --reload
-API runs on: http://localhost:8000
-Docs: http://localhost:8000/docs
+Everything runs inside containers.
 
-4. Frontend Setup
-bash
-Copy code
-cd ../frontend
-npm install
-npm run dev
-App runs on: http://localhost:3000
+---
 
-5. Database Setup
-Create a PostgreSQL database.
-Run migrations or create tables manually (see backend/app/core/models.py).
+# Part 1 — Manual Docker Setup (Learn How Containers Connect)
 
-7. Docker (Optional)
-bash
-Copy code
-docker-compose up --build
+Run all commands from the project root.
 
-🎯 Usage
-Register/Login: Create an account as Faculty or Admin.
-Add Students: Upload student photos for face encoding.
-Upload Attendance: Capture classroom image → AI detects faces → Marks attendance.
-View Results: See processed image, student list, and stats.
-Download Reports: Get latest CSV/PDF with attendance data.
+---
 
-API Endpoints
-POST /api/auth/login - User login
-POST /api/attendance/upload - Upload image/CSV
-GET /api/attendance/results - Get results
-GET /api/attendance/download/latest/csv - Download CSV
-GET /api/attendance/download/latest/pdf - Download PDF
+## Step 1 — Create Docker Network
 
-🚀 Deployment
-Heroku (Easy)
-Create Heroku app: heroku create edusnap-backend
-Add PostgreSQL: heroku addons:create heroku-postgresql
-Push: git push heroku main
-Access: https://edusnap-backend.herokuapp.com
-AWS (Production)
-Use ECS/Fargate for containers.
-RDS for PostgreSQL.
-S3 for static files.
+Containers communicate using a shared Docker network.
 
-🤝 Contributing
-We welcome contributions! 🚀
+```bash
+docker network create edusnap-net
+```
 
-Fork the repo.
-Create a feature branch: git checkout -b feature/amazing-feature
-Commit changes: git commit -m 'Add amazing feature'
-Push: git push origin feature/amazing-feature
-Open a Pull Request.
+---
 
-Guidelines
-Follow PEP8 for Python.
-Use TypeScript for React.
-Add tests for new features.
+## Step 2 — Build Images
 
+Build frontend and backend images.
 
-📄 License
-This project is licensed under the MIT License - see the LICENSE file for details.
+```bash
+docker build -t edusnap-frontend:v1 ./edusnap-frontend
 
+docker build -t edusnap-backend:v1 ./backend
+```
 
-🙏 Acknowledgments
-InsightFace for AI models.
-FastAPI community for awesome docs.
-React for building UIs.
-Inspired by modern attendance systems.
+The backend build may take several minutes because AI dependencies are large.
+
+---
+
+## Step 3 — Run PostgreSQL Container
+
+```bash
+docker run -d --name postgres \
+  --network edusnap-net \
+  -e POSTGRES_USER=pankaj \
+  -e POSTGRES_PASSWORD=cant give \
+  -e POSTGRES_DB=edusnap \
+  -p 5432:5432 \
+  postgres:16-alpine
+```
+
+---
+
+## Step 4 — Run Backend Container
+
+```bash
+docker run -d --name backend \
+  --network edusnap-net \
+  -e DATABASE_URL="postgresql://pankaj:cant give@postgres:5432/edusnap" \
+  -p 8000:8000 \
+  edusnap-backend:v1
+```
+
+The backend automatically:
+
+* loads AI models
+* initializes FastAPI
+* connects to PostgreSQL
+
+---
+
+## Step 5 — Run Frontend Container
+
+```bash
+docker run -d --name frontend \
+  --network edusnap-net \
+  -p 3000:80 \
+  edusnap-frontend:v1
+```
+
+---
+
+## Step 6 — Open The Application
+
+Frontend:
+
+```text
+http://localhost:3000
+```
+
+Backend API Docs:
+
+```text
+http://localhost:8000/docs
+```
+
+---
+
+## Step 7 — Stop Everything
+
+```bash
+docker rm -f frontend backend postgres
+
+docker network rm edusnap-net
+```
+
+---
+
+# Part 2 — Docker Compose (Recommended)
+
+Docker Compose automates:
+
+* networking
+* container startup
+* environment variables
+* volumes
+
+Start the full stack:
+
+```bash
+docker compose up -d
+```
+
+Stop everything:
+
+```bash
+docker compose down
+```
+
+---
+
+# Services
+
+| Service    | URL                        | Description      |
+| ---------- | -------------------------- | ---------------- |
+| Frontend   | http://localhost:3000      | React UI         |
+| Backend    | http://localhost:8000/docs | FastAPI API Docs |
+| PostgreSQL | localhost:5432             | Database         |
+
+---
+
+# Persistent AI Models
+
+The backend downloads InsightFace models during the first startup.
+
+Docker volumes are used so models are cached permanently:
+
+```yaml
+volumes:
+  - insightface_models:/root/.insightface
+```
+
+This prevents repeated downloads on future restarts.
+
+---
+
+# Docker Hub Images
+
+Images are available on Docker Hub.
+
+Frontend:
+
+```bash
+docker pull pankajdikale/edusnap-frontend:v1
+```
+
+Backend:
+
+```bash
+docker pull pankajdikale/edusnap-backend:v1
+```
+
+---
+
+# Folder Structure
+
+```text
+.
+├── docker-compose.yml
+├── edusnap-frontend/
+│   ├── src/
+│   ├── public/
+│   └── Dockerfile
+│
+├── backend/
+│   ├── app/
+│   ├── requirements.txt
+│   └── Dockerfile
+│
+└── storage/
+```
+
+---
+
+# Future Improvements
+
+* GitHub Actions CI/CD
+* AWS EC2 deployment
+* Nginx reverse proxy
+* HTTPS with SSL
+* GPU acceleration
+* Kubernetes deployment
+
+---
+
+# Author
+
+Pankaj Dikale
 
 
 📞 Contact
