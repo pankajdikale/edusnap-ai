@@ -1,69 +1,103 @@
-# EduSnap AI — Smart Attendance System (React + FastAPI + PostgreSQL + AI)
+# EduSnap AI — AI Powered Attendance Management System
 
-EduSnap AI is a smart attendance system that uses **face recognition**
-to automatically mark student attendance.
+EduSnap AI is a full-stack AI-powered attendance management system that uses face recognition to automatically identify students and mark attendance.
 
-Instead of manually taking attendance, the backend detects faces using
-AI models and records attendance directly into the database.
+The project is fully containerized using Docker and includes an automated CI/CD pipeline with GitHub Actions and Docker Hub.
 
 <img width="1024" height="1024" alt="edusnap-logo" src="https://github.com/user-attachments/assets/ab5b388c-5f23-47e1-939f-55345831af6a" />
-
-Three main pieces work together:
-
-```text
-browser  →  frontend (React)  →  backend (FastAPI + AI)  →  database (PostgreSQL)
-```
-
-* **frontend** — React app built with Vite. Handles the user interface.
-* **backend** — FastAPI application that handles APIs, authentication,
-  attendance logic, and face recognition.
-* **database** — PostgreSQL stores users, students, and attendance records.
-
-The backend also uses:
-
-* **InsightFace**
-* **ONNX Runtime**
-* **OpenCV**
-
-for AI-based face detection and recognition.
 
 ---
 
 # Features
 
-* Face recognition attendance system
-* Student registration
-* Attendance tracking
-* PostgreSQL database integration
-* Dockerized frontend + backend + database
-* Multi-stage Docker builds
-* Persistent AI model storage using Docker volumes
-* Docker Hub image deployment
-* Docker Compose orchestration
+* AI-powered face recognition attendance
+* FastAPI backend
+* React + Vite frontend
+* PostgreSQL database
+* Dockerized architecture
+* Docker Compose support
+* GitHub Actions CI/CD pipeline
+* Docker Hub image publishing
+* Swagger API documentation
+* Multi-container deployment ready
 
 ---
 
 # Tech Stack
 
-| Layer            | Technology                  |
-| ---------------- | --------------------------- |
-| Frontend         | React + Vite + TypeScript   |
-| Backend          | FastAPI                     |
-| Database         | PostgreSQL                  |
-| AI/ML            | InsightFace + ONNX + OpenCV |
-| Containerization | Docker                      |
-| Orchestration    | Docker Compose              |
+## Frontend
+
+* React
+* TypeScript
+* Vite
+* TailwindCSS
+* Zustand
+
+## Backend
+
+* FastAPI
+* SQLAlchemy
+* InsightFace
+* OpenCV
+* ONNX Runtime
+* PostgreSQL
+
+## DevOps
+
+* Docker
+* Docker Compose
+* GitHub Actions
+* Docker Hub
 
 ---
 
-# What You Need
+# System Architecture
 
-Only these are required:
+```text
+Browser
+   ↓
+Frontend (React + Vite)
+   ↓
+Backend API (FastAPI + AI)
+   ↓
+PostgreSQL Database
+```
+
+---
+
+# Project Structure
+
+```text
+edusnap-ai/
+│
+├── backend/
+│   ├── app/
+│   ├── Dockerfile
+│   └── requirements.txt
+│
+├── edusnap-frontend/
+│   ├── src/
+│   ├── Dockerfile
+│   └── package.json
+│
+├── docker-compose.yml
+│
+└── .github/workflows/
+    └── docker-ci.yml
+```
+
+---
+
+# Run Locally With Docker
+
+## Requirements
+
+Install:
 
 * Docker
 * Docker Compose
 
-You do NOT need to install:
+You do NOT need:
 
 * Node.js
 * Python
@@ -73,88 +107,39 @@ Everything runs inside containers.
 
 ---
 
-# Part 1 — Manual Docker Setup (Learn How Containers Connect)
-
-Run all commands from the project root.
-
----
-
-## Step 1 — Create Docker Network
-
-Containers communicate using a shared Docker network.
+# Step 1 — Clone Repository
 
 ```bash
-docker network create edusnap-net
+git clone git@github.com:pankajdikale/edusnap-ai.git
+
+cd edusnap-ai
 ```
 
 ---
 
-## Step 2 — Build Images
-
-Build frontend and backend images.
+# Step 2 — Start Containers
 
 ```bash
-docker build -t edusnap-frontend:v1 ./edusnap-frontend
-
-docker build -t edusnap-backend:v1 ./backend
+docker-compose up -d
 ```
 
-The backend build may take several minutes because AI dependencies are large.
+This starts:
+
+* frontend
+* backend
+* postgres database
 
 ---
 
-## Step 3 — Run PostgreSQL Container
+# Step 3 — Open Application
 
-```bash
-docker run -d --name postgres \
-  --network edusnap-net \
-  -e POSTGRES_USER=pankaj \
-  -e POSTGRES_PASSWORD=cant give \
-  -e POSTGRES_DB=edusnap \
-  -p 5432:5432 \
-  postgres:16-alpine
-```
-
----
-
-## Step 4 — Run Backend Container
-
-```bash
-docker run -d --name backend \
-  --network edusnap-net \
-  -e DATABASE_URL="postgresql://pankaj:cant give@postgres:5432/edusnap" \
-  -p 8000:8000 \
-  edusnap-backend:v1
-```
-
-The backend automatically:
-
-* loads AI models
-* initializes FastAPI
-* connects to PostgreSQL
-
----
-
-## Step 5 — Run Frontend Container
-
-```bash
-docker run -d --name frontend \
-  --network edusnap-net \
-  -p 3000:80 \
-  edusnap-frontend:v1
-```
-
----
-
-## Step 6 — Open The Application
-
-Frontend:
+## Frontend
 
 ```text
 http://localhost:3000
 ```
 
-Backend API Docs:
+## Backend Swagger Docs
 
 ```text
 http://localhost:8000/docs
@@ -162,117 +147,207 @@ http://localhost:8000/docs
 
 ---
 
-## Step 7 — Stop Everything
+# Stop Containers
 
 ```bash
-docker rm -f frontend backend postgres
-
-docker network rm edusnap-net
+docker-compose down
 ```
 
 ---
 
-# Part 2 — Docker Compose (Recommended)
-
-Docker Compose automates:
-
-* networking
-* container startup
-* environment variables
-* volumes
-
-Start the full stack:
+# View Logs
 
 ```bash
-docker compose up -d
-```
-
-Stop everything:
-
-```bash
-docker compose down
+docker-compose logs -f
 ```
 
 ---
 
-# Services
+# Docker Images
 
-| Service    | URL                        | Description      |
-| ---------- | -------------------------- | ---------------- |
-| Frontend   | http://localhost:3000      | React UI         |
-| Backend    | http://localhost:8000/docs | FastAPI API Docs |
-| PostgreSQL | localhost:5432             | Database         |
+The project images are available on Docker Hub.
 
----
-
-# Persistent AI Models
-
-The backend downloads InsightFace models during the first startup.
-
-Docker volumes are used so models are cached permanently:
-
-```yaml
-volumes:
-  - insightface_models:/root/.insightface
-```
-
-This prevents repeated downloads on future restarts.
-
----
-
-# Docker Hub Images
-
-Images are available on Docker Hub.
-
-Frontend:
-
-```bash
-docker pull pankajdikale/edusnap-frontend:v1
-```
-
-Backend:
-
-```bash
-docker pull pankajdikale/edusnap-backend:v1
-```
-
----
-
-# Folder Structure
+## Frontend Image
 
 ```text
-.
-├── docker-compose.yml
-├── edusnap-frontend/
-│   ├── src/
-│   ├── public/
-│   └── Dockerfile
-│
-├── backend/
-│   ├── app/
-│   ├── requirements.txt
-│   └── Dockerfile
-│
-└── storage/
+pankajdikale/edusnap-frontend:v1
+```
+
+## Backend Image
+
+```text
+pankajdikale/edusnap-backend:v1
+```
+
+---
+
+# Run Using Docker Hub Images
+
+```bash
+docker-compose up -d
+```
+
+Docker automatically pulls the images from Docker Hub.
+
+---
+
+# Build Images Manually
+
+## Frontend
+
+```bash
+cd edusnap-frontend
+
+docker build -t edusnap-frontend:v1 .
+```
+
+## Backend
+
+```bash
+cd backend
+
+docker build -t edusnap-backend:v1 .
+```
+
+---
+
+# CI/CD Pipeline
+
+This project includes a GitHub Actions CI/CD pipeline.
+
+Whenever code is pushed to the `main` branch:
+
+1. GitHub Actions starts automatically
+2. Frontend Docker image is built
+3. Backend Docker image is built
+4. Images are pushed to Docker Hub automatically
+
+Workflow file:
+
+```text
+.github/workflows/docker-ci.yml
+```
+
+---
+
+# Deploy On AWS EC2
+
+## Step 1 — Launch EC2 Instance
+
+Recommended:
+
+* Ubuntu Server 22.04
+* t2.medium or higher
+
+---
+
+# Step 2 — Install Docker
+
+```bash
+sudo apt update
+
+sudo apt install docker.io docker-compose -y
+```
+
+Enable Docker:
+
+```bash
+sudo systemctl enable docker
+
+sudo systemctl start docker
+```
+
+---
+
+# Step 3 — Clone Repository
+
+```bash
+git clone git@github.com:pankajdikale/edusnap-ai.git
+
+cd edusnap-ai
+```
+
+---
+
+# Step 4 — Start Containers
+
+```bash
+docker-compose up -d
+```
+
+Docker will:
+
+* pull images from Docker Hub
+* create containers
+* start services automatically
+
+---
+
+# Step 5 — Open Security Group Ports
+
+Allow:
+
+| Port | Purpose     |
+| ---- | ----------- |
+| 3000 | Frontend    |
+| 8000 | Backend API |
+| 22   | SSH         |
+
+---
+
+# Step 6 — Access Application
+
+```text
+http://EC2_PUBLIC_IP:3000
+```
+
+Swagger docs:
+
+```text
+http://EC2_PUBLIC_IP:8000/docs
+```
+
+---
+
+# Useful Commands
+
+## Running Containers
+
+```bash
+docker ps
+```
+
+## Stop Everything
+
+```bash
+docker-compose down
+```
+
+## Restart Containers
+
+```bash
+docker-compose restart
+```
+
+## Rebuild Containers
+
+```bash
+docker-compose up --build
 ```
 
 ---
 
 # Future Improvements
 
-* GitHub Actions CI/CD
-* AWS EC2 deployment
 * Nginx reverse proxy
 * HTTPS with SSL
-* GPU acceleration
+* Domain setup
 * Kubernetes deployment
+* Monitoring with Prometheus/Grafana
+* Auto deployment to EC2
+* GPU acceleration for AI inference
 
 ---
-
-# Author
-
-Pankaj Dikale
-
 
 📞 Contact
 Author: Pankaj Dikale
