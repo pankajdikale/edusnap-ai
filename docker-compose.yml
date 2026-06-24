@@ -16,7 +16,7 @@ services:
       - postgres_data:/var/lib/postgresql/data
 
   backend:
-    image: pankajdikale/edusnap-backend:latest
+    image: pankajdikale/edusnap-backend:v2
 
     container_name: edusnap-backend
 
