@@ -7,6 +7,7 @@ from app.core.database import engine
 from app.core import models
 from app.api.routes import auth, admin, faculty, attendance, reports
 from app.core.attendance_cleanup import delete_old_attendance
+from app.core.seed import seed_admin
 
 models.Base.metadata.create_all(bind=engine)
 
@@ -46,3 +47,4 @@ def health_check():
 @app.on_event("startup")
 def startup_tasks():
     delete_old_attendance(days=10)
+    seed_admin()
