@@ -73,4 +73,4 @@ jobs:
         with:
           context: ./backend
           push: true
-          tags: pankajdikale/edusnap-backend:v1
+          tags: pankajdikale/edusnap-backend:latest
