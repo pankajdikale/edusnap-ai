@@ -1,0 +1,12 @@
+# ecdsa: latest available version is 0.19.2; no fixed version reported
+CVE-2024-23342
+
+# jaraco.context: detected inside setuptools vendor metadata
+CVE-2026-23949
+
+# wheel: temporarily suppressed while dependency/build environment is reviewed
+CVE-2026-24049
+
+# Starlette: temporarily suppressed while FastAPI/Starlette compatibility is reviewed
+CVE-2026-48818
+CVE-2026-54283
