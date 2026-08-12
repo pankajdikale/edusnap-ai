@@ -40,7 +40,7 @@ jobs:
           image-ref: edusnap-frontend:test
           format: table
           severity: CRITICAL,HIGH
-          ignorefile: .trivyignore
+          trivyignores: .trivyignore
           exit-code: 1
 
       # Step 6 - Build Backend image
@@ -58,7 +58,7 @@ jobs:
           image-ref: edusnap-backend:test
           format: table
           severity: CRITICAL,HIGH
-          ignorefile: .trivyignore
+          trivyignores: .trivyignore
           exit-code: 1
 
       # Step 8 - Push Frontend
